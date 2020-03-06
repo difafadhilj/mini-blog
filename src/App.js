@@ -5,6 +5,11 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import NotFound from "./components/NotFound";
+import ArticleDetails from "./components/ArticleDetails";
+import MyArticles from "./components/MyArticles";
+import CreateArticle from "./components/CreateArticle";
+import User from "./components/User";
+import Comment from "./components/Comment";
 import Main from "./components/Main";
 
 class App extends React.Component {
@@ -13,22 +18,14 @@ class App extends React.Component {
       <Router>
         <Main>
           <Switch>
-            {/* ADMIN */}
-            {/* <Route path="/admin/DeleteBook/:id" component={DeleteBook} />
-            <Route path="/admin/EditBook/:id" component={EditBook} />
-            <Route path="/admin/inputBook" component={InputBook} />
-            <Route path="/admin/books" component={AdminBooks} />
-            <Route path="/admin/user" component={User} />
-            <Route path="/admin/order" component={Order} />
-            <Route path="/admin/OrderDetails/:id" component={OrderDetails} />
-            <Route path="/admin" component={Admin} /> */}
-            {/* USER */}
             <Route exact path="/" component={Dashboard} />
-            {/* <Route path="/books/:id" component={Books} />
-            <Route path="/about" component={About} /> */}
-            {/* <Route path="/getOrder" component={getOrder} /> */}
+            <Route path="/article/:id" component={ArticleDetails} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/myarticles/:id" component={MyArticles} />
+            <Route path="/article-create" component={CreateArticle} />
+            <Route path="/user" component={User} />
+            <Route path="/comment" component={Comment} />
             {/* NOTFOUND */}
             <Route component={NotFound} />
           </Switch>

@@ -2,7 +2,7 @@ import React from "react";
 
 class NotFound extends React.Component {
   render() {
-    return <h1>Not Found!</h1>;
+    return <h1 style={{ height: "30vh" }}>Not Found!</h1>;
   }
 }
 

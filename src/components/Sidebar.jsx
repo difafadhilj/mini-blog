@@ -4,11 +4,7 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="col-sm-2">
-        <h2>About Me</h2>
-        <h5>Photo of me:</h5>
-        <div className="fakeimg">Fake Image</div>
-        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-        <h3>Some Links</h3>
+        <h3>Recent Post</h3>
         <p>Lorem ipsum dolor sit ame.</p>
         <ul className="nav nav-pills flex-column">
           <li className="nav-item">

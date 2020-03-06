@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 function Login() {
-  const [form, setValues] = useState({
-    username: "",
-    password: ""
-  });
+  const { register, handleSubmit, errors } = useForm();
   let history = useHistory();
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleLogin = async data => {
     try {
       const result = await axios.post("http://localhost:8080/login", {
-        username: form.username,
-        password: form.password
+        username: data.username,
+        password: data.password
       });
 
-      window.sessionStorage.setItem("role", result.data.role);
       window.sessionStorage.setItem("token", result.data.accessToken);
-      window.sessionStorage.setItem("userId", result.data.id);
+      window.sessionStorage.setItem("id", result.data.user.id);
+      window.sessionStorage.setItem("admin", result.data.user.admin);
 
       if (result.status === 200) {
-        if (result.data.role === "ADMIN") {
-          history.push("/admin");
-        } else {
-          history.push("/");
-        }
+        history.push("/");
       }
     } catch (err) {
       console.log(err);
@@ -34,41 +27,57 @@ function Login() {
     }
   };
 
-  const updateField = e => {
-    setValues({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
   if (window.sessionStorage.getItem("token")) return <h1>Sudah Login</h1>;
   return (
     <div>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label for="username">username :</label>
-        <input
-          id="username"
-          value={form.username}
-          className="form-control"
-          type="text"
-          name="username"
-          onChange={updateField}
-        />
+      <form onSubmit={e => e.preventDefault()}>
+        <div>
+          <label for="username">Username :</label>
+          <input
+            id="username"
+            className="form-control"
+            type="text"
+            name="username"
+            ref={register({
+              required: "This fields is required",
+              minLength: {
+                value: 3,
+                message: "This field is required 3 characters minimum length"
+              }
+            })}
+          />
+          <span className="text-danger">
+            {errors.username && errors.username.message}
+          </span>
+        </div>
 
-        <label for="password">password :</label>
-        <input
-          id="password"
-          value={form.password}
-          className="form-control"
-          type="password"
-          name="password"
-          onChange={updateField}
-        />
+        <div>
+          <label for="password">Password :</label>
+          <input
+            id="password"
+            className="form-control"
+            type="password"
+            name="password"
+            ref={register({
+              required: {
+                value: true,
+                message: "This field is required"
+              },
+              minLength: {
+                value: 3,
+                message: "This field required at least 3 characters length"
+              }
+            })}
+          />
+          <span className="text-danger">
+            {errors.password && errors.password.message}
+          </span>
+        </div>
 
         <input
-          onClick={handleSubmit}
           type="submit"
+          onClick={handleSubmit(handleLogin)}
           className="btn btn-primary mt-3"
         />
       </form>

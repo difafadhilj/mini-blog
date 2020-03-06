@@ -1,36 +1,99 @@
-import React, { Component } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-class Navbar extends Component {
-  state = {};
-  render() {
+const Navbar = () => {
+  const history = useHistory();
+  let admin = window.sessionStorage.getItem("admin");
+  let token = window.sessionStorage.getItem("token");
+  let id = window.sessionStorage.getItem("id");
+
+  const logout = () => {
+    let confirm = window.confirm("Anda yakin?");
+    if (confirm) {
+      window.sessionStorage.clear();
+      history.push("/login");
+    }
+  };
+
+  if (token && admin === "true") {
     return (
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-sm bg-success navbar-dark">
+        <a className="navbar-brand" href="#">
           miniBlog
         </a>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-toggle="collapse"
           data-target="#collapsibleNavbar"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/">
+        <div className="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Articles
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/article-create">
+                Post Something
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/user">
+                Users
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/comment">
+                Comments
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={logout}>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
+  } else if (token !== null && admin === "false") {
+    return (
+      <nav className="navbar navbar-expand-sm bg-success navbar-dark">
+        <a className="navbar-brand" href="#">
+          miniBlog
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapsibleNavbar"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="/">
                 Dashboard
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">
-                Sign In
+            <li className="nav-item">
+              <a className="nav-link" href={"/myarticles/" + id}>
+                My Article
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register">
-                Sign Up
+            <li className="nav-item">
+              <a className="nav-link" href={"/article-create/"}>
+                Create Article
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" onClick={logout}>
+                Logout
               </a>
             </li>
           </ul>
@@ -38,6 +101,41 @@ class Navbar extends Component {
       </nav>
     );
   }
-}
+
+  return (
+    <nav className="navbar navbar-expand-sm bg-success navbar-dark">
+      <a className="navbar-brand" href="#">
+        miniBlog
+      </a>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div className="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <a className="nav-link" href="/">
+              Dashboard
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/login">
+              Sign In
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/register">
+              Sign Up
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;
